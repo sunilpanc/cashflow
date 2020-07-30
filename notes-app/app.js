@@ -1,46 +1,60 @@
 const yargs = require('yargs')
+const notes = require('./notes.js')
 
 yargs.command({
     command:'add',
     describe:'Add a note',
     builder: {
         title : {
-            describe:"Note title",
+            describe:'Note title',
             demandOption:true,
             type:'string'
         },
         body : {
-            describe:"body of add",
+            describe:'body of add',
             demandOption:true,
             type:'string'
         }
     },
-    handler:function(argv){
-        console.log('Adding a note...' + argv.title)
-        console.log('Adding a body...' + argv.body)
+    handler(argv){
+       notes.addNote(argv.title,argv.body)
     }
 })
 yargs.command({
     command:'remove',
     describe:'Remove a note',
-    handler:function(){
-        console.log('Removing a note...')
+    builder:{
+        title : {
+            describe:'Removing the title' ,
+            demandOption : true ,
+            type : 'string'
+        }
+    },
+    handler(argv){
+       notes.removeNote(argv.title)
     }
 })
 
 yargs.command({
     command:'list',
     describe:'list of variable',
-    handler:function(){
-        console.log("This is our list")    
+    handler(){
+        notes.listNote()    
     }
 })
 
 yargs.command({
     command:'read',
     describe:'It can read the data',
-    handler: function(){
-        console.log("This can read the data of powershell")
+    builder:{
+        title:{
+            describe:'It takes the title input and find it on our json file',
+            demandOption:true,
+            type:'string'
+        }
+    },
+    handler(argv){
+        notes.readNote(argv.title)
     }
 })
 
