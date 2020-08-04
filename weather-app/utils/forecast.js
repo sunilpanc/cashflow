@@ -1,18 +1,18 @@
 const request = require('request')
 
 const forecast = (lat,lon, callback)=>{
-    const forecastUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=7c4d5f4a25bff70f6f880e19f16ca3f6`;
+    const url = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=7c4d5f4a25bff70f6f880e19f16ca3f6`;
 
-    request({url:forecastUrl,json:true},(error,data)=>{
+    request({url,json:true},(error,{ body })=>{
 
         if(error){
             callback('You are not connected with internet',undefined);
         }
-        else if(data.body.message){
+        else if(body.message){
             callback('You entered invalid geocode. Please try another one...',undefined);
         }
         else{
-            callback(undefined,`${data.body.weather[0].description}. It is currently ${data.body.main.temp} degrees out. There is a ${data.body.clouds['all']}% chance of rain.`);
+            callback(undefined,`${body.weather[0].description}. It is currently ${body.main.temp} degrees out. There is a ${body.clouds['all']}% chance of rain.`);
         }
     })
 }
